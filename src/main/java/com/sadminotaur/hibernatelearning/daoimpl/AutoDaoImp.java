@@ -1,53 +1,55 @@
 package com.sadminotaur.hibernatelearning.daoimpl;
 
-import com.sadminotaur.hibernatelearning.dao.UserDao;
+import com.sadminotaur.hibernatelearning.dao.AutoDao;
 import com.sadminotaur.hibernatelearning.model.Auto;
-import com.sadminotaur.hibernatelearning.model.User;
 import com.sadminotaur.hibernatelearning.utils.HibernateSesFacUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
-public class UserDaoImpl implements UserDao {
+public class AutoDaoImp implements AutoDao {
 
-    public UserDaoImpl() {
+    public AutoDaoImp() {
     }
 
-    public User findById(int id) {
-        return HibernateSesFacUtil.getOpenedSession().get(User.class, id);
-    }
-
-    public void addUser(User user) {
+    @Override
+    public void addAuto(Auto auto) {
         Session session = HibernateSesFacUtil.getOpenedSession();
         Transaction transaction = session.beginTransaction();
-        session.save(user);
+        session.save(auto);
         transaction.commit();
         session.close();
     }
 
-    public void update(User user) {
+    @Override
+    public Auto findAutoById(int id) {
+        return HibernateSesFacUtil.getOpenedSession().get(Auto.class, id);
+    }
+
+    @Override
+    public void update(Auto auto) {
         Session session = HibernateSesFacUtil.getOpenedSession();
         Transaction transaction = session.beginTransaction();
-        session.update(user);
+        session.update(auto);
         transaction.commit();
         session.close();
     }
 
-    public void delete(User user) {
+    @Override
+    public void delete(Auto auto) {
         Session session = HibernateSesFacUtil.getOpenedSession();
         Transaction transaction = session.beginTransaction();
-        session.delete(user);
+        session.delete(auto);
         transaction.commit();
         session.close();
     }
 
-    public void deleteAllUsers(){
+    @Override
+    public void deleteAllAuto() {
         Session openedSession = HibernateSesFacUtil.getOpenedSession();
         Transaction transaction = openedSession.beginTransaction();
-        openedSession.createQuery("delete from UserBase").executeUpdate();
+        openedSession.createQuery("delete from Auto").executeUpdate();
         transaction.commit();
         openedSession.close();
     }
