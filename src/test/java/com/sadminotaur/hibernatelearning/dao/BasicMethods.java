@@ -1,5 +1,6 @@
 package com.sadminotaur.hibernatelearning.dao;
 
+import com.sadminotaur.hibernatelearning.model.Auto;
 import com.sadminotaur.hibernatelearning.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,12 +17,16 @@ public class BasicMethods {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private AutoDao autoDao;
 
     private final User userOne = new User("test", "test", "test", 1);
+    private final Auto autoOne = new Auto("test", "test");
 
     @BeforeEach
     public void clean() {
         userDao.deleteAllUsers();
+        autoDao.deleteAllAutos();
     }
 
     @Test
@@ -43,5 +48,34 @@ public class BasicMethods {
         userDao.addUser(userOne);
         userDao.delete(userOne);
         assertNull(userDao.findById(userOne.getId()));
+    }
+
+    @Test
+    public void testAddAuto() {
+        autoDao.addAuto(autoOne);
+        assertEquals(autoOne, autoDao.findAutoById(autoOne.getId()));
+    }
+
+    @Test
+    public void testUpdateAuto() {
+        autoDao.addAuto(autoOne);
+        autoOne.setColor("sad");
+        autoDao.update(autoOne);
+        assertEquals(autoOne, autoDao.findAutoById(autoOne.getId()));
+    }
+
+    @Test
+    public void testDeleteAuto() {
+        autoDao.addAuto(autoOne);
+        autoDao.delete(autoOne);
+        assertNull(autoDao.findAutoById(userOne.getId()));
+    }
+
+    @Test
+    public void testSetAuto() {
+        userDao.addUser(userOne);
+        autoOne.setUser(userOne);
+        autoDao.addAuto(autoOne);
+        assertEquals(userOne, autoDao.findAutoById(autoOne.getId()).getUser());
     }
 }

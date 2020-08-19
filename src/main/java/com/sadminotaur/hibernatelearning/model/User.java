@@ -3,6 +3,7 @@ package com.sadminotaur.hibernatelearning.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -17,7 +18,7 @@ public class User extends UserBase {
     @Column(name = "age")
     private int age;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Auto> autos;
 
     public User() {
@@ -73,12 +74,18 @@ public class User extends UserBase {
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                ", autos=" + autos +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        if (!super.equals(o)) return false;
+        User user = (User) o;
+        return getAge() == user.getAge() &&
+                Objects.equals(getPassword(), user.getPassword()) &&
+                Objects.equals(getName(), user.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getPassword(), getName(), getAge());
     }
 }

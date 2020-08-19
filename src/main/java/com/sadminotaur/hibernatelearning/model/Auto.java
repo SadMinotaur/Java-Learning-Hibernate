@@ -1,6 +1,7 @@
 package com.sadminotaur.hibernatelearning.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "autos")
@@ -25,7 +26,6 @@ public class Auto {
     }
 
     public Auto() {
-
     }
 
     public int getId() {
@@ -57,7 +57,18 @@ public class Auto {
     }
 
     @Override
-    public String toString() {
-        return color + " " + model;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Auto)) return false;
+        Auto auto = (Auto) o;
+        return getId() == auto.getId() &&
+                Objects.equals(getModel(), auto.getModel()) &&
+                Objects.equals(getColor(), auto.getColor()) &&
+                Objects.equals(getUser(), auto.getUser());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getModel(), getColor(), getUser());
     }
 }

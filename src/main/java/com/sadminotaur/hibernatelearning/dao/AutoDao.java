@@ -12,6 +12,5 @@ public interface AutoDao {
 
     void delete(Auto auto);
 
-    void deleteAllAuto();
-
+    void deleteAllAutos();
 }

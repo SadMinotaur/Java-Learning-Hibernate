@@ -46,7 +46,7 @@ public class AutoDaoImp implements AutoDao {
     }
 
     @Override
-    public void deleteAllAuto() {
+    public void deleteAllAutos() {
         Session openedSession = HibernateSesFacUtil.getOpenedSession();
         Transaction transaction = openedSession.beginTransaction();
         openedSession.createQuery("delete from Auto").executeUpdate();
